@@ -356,12 +356,15 @@ app.get('/analytics', ensureAuthenticated, (req, res) => {
   });
 });
 
-app.get('/settings', ensureAuthenticated, authorizeRole(['admin']), (req, res) => {
-  res.render('user-form', {
+app.get('/settings', ensureAuthenticated, (req, res) => {
+  res.render('settings', {
     title: 'Settings',
     user: req.session.user,
     activeTab: 'settings',
-    userData: req.session.user
+    messages: {
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg')
+    }
   });
 });
 

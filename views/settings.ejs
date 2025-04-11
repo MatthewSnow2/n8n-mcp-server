@@ -1,0 +1,103 @@
+<%- include('layout', { title: 'Settings' }) %>
+
+<div class="container mt-4">
+  <%- include('partials/hero', { 
+    title: 'Account Settings', 
+    subtitle: 'Update your account information and password'
+  }) %>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar p-3">
+        <h5>Navigation</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'dashboard' ? 'active' : '' %>" href="/dashboard">
+              <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'workflows' ? 'active' : '' %>" href="/workflows">
+              <i class="bi bi-diagram-3"></i> Workflows
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'marketing' ? 'active' : '' %>" href="/marketing-campaigns">
+              <i class="bi bi-megaphone"></i> Marketing Campaigns
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'analytics' ? 'active' : '' %>" href="/analytics">
+              <i class="bi bi-graph-up"></i> Analytics
+            </a>
+          </li>
+          <% if (user && user.role === 'admin') { %>
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'users' ? 'active' : '' %>" href="/users">
+              <i class="bi bi-people"></i> User Management
+            </a>
+          </li>
+          <% } %>
+          <li class="nav-item">
+            <a class="nav-link <%= activeTab === 'settings' ? 'active' : '' %>" href="/settings">
+              <i class="bi bi-gear"></i> Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="col-md-9">
+      <% if (messages.success_msg) { %>
+        <div class="alert alert-success">
+          <%= messages.success_msg %>
+        </div>
+      <% } %>
+      
+      <% if (messages.error_msg) { %>
+        <div class="alert alert-danger">
+          <%= messages.error_msg %>
+        </div>
+      <% } %>
+      
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Change Password</h5>
+        </div>
+        <div class="card-body">
+          <form action="/settings/update-password" method="POST">
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label">Current Password</label>
+              <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm New Password</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card mt-4">
+        <div class="card-header">
+          <h5 class="mb-0">Account Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" value="<%= user.username %>" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <input type="text" class="form-control" value="<%= user.role %>" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
