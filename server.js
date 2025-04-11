@@ -242,7 +242,8 @@ app.get('/dashboard', ensureAuthenticated, async (req, res) => {
     res.render('dashboard', { 
       title: 'Dashboard',
       user: req.session.user,
-      workflows
+      workflows,
+      activeTab: 'dashboard'
     });
   } catch (error) {
     logger.error('Error fetching workflows:', error.message);
@@ -250,7 +251,8 @@ app.get('/dashboard', ensureAuthenticated, async (req, res) => {
       title: 'Dashboard',
       user: req.session.user,
       workflows: [],
-      error: 'Unable to fetch workflows from n8n'
+      error: 'Unable to fetch workflows from n8n',
+      activeTab: 'dashboard'
     });
   }
 });
@@ -278,6 +280,121 @@ app.get('/workflows/:id', ensureAuthenticated, async (req, res) => {
     req.flash('error_msg', 'Unable to fetch workflow details');
     res.redirect('/dashboard');
   }
+});
+
+app.get('/workflows', ensureAuthenticated, async (req, res) => {
+  try {
+    // Get workflows from n8n
+    const workflowsResponse = await axios.get(`${N8N_URL}/api/v1/workflows`, {
+      headers: {
+        'X-N8N-API-KEY': process.env.N8N_API_KEY || ''
+      }
+    });
+    
+    const workflows = workflowsResponse.data.data || [];
+    
+    res.render('dashboard', { 
+      title: 'Workflows',
+      user: req.session.user,
+      workflows,
+      activeTab: 'workflows'
+    });
+  } catch (error) {
+    logger.error('Error fetching workflows:', error.message);
+    res.render('dashboard', { 
+      title: 'Workflows',
+      user: req.session.user,
+      workflows: [],
+      error: 'Unable to fetch workflows from n8n',
+      activeTab: 'workflows'
+    });
+  }
+});
+
+app.get('/marketing-campaigns', ensureAuthenticated, (req, res) => {
+  // Sample marketing campaigns data
+  const campaigns = [
+    {
+      id: '1',
+      name: 'Summer Promotion',
+      created: 'April 10, 2025',
+      budget: 5000,
+      utilized: 75,
+      status: 'active'
+    },
+    {
+      id: '2',
+      name: 'Product Launch',
+      created: 'April 5, 2025',
+      budget: 10000,
+      utilized: 30,
+      status: 'planning'
+    }
+  ];
+  
+  res.render('dashboard', {
+    title: 'Marketing Campaigns',
+    user: req.session.user,
+    campaigns,
+    activeTab: 'marketing'
+  });
+});
+
+app.get('/analytics', ensureAuthenticated, (req, res) => {
+  // Sample analytics data
+  const analytics = {
+    apiRequests: 128,
+    activeWorkflows: 0,
+    activeCampaigns: 3
+  };
+  
+  res.render('dashboard', {
+    title: 'Analytics',
+    user: req.session.user,
+    analytics,
+    activeTab: 'analytics'
+  });
+});
+
+app.get('/settings', ensureAuthenticated, authorizeRole(['admin']), (req, res) => {
+  res.render('user-form', {
+    title: 'Settings',
+    user: req.session.user,
+    activeTab: 'settings',
+    userData: req.session.user
+  });
+});
+
+app.post('/settings/update-password', ensureAuthenticated, (req, res) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  const userId = req.session.user.id;
+  
+  // Get the current user
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    req.flash('error_msg', 'User not found');
+    return res.redirect('/settings');
+  }
+  
+  // Verify current password
+  if (user.password !== currentPassword) {
+    req.flash('error_msg', 'Current password is incorrect');
+    return res.redirect('/settings');
+  }
+  
+  // Verify new passwords match
+  if (newPassword !== confirmPassword) {
+    req.flash('error_msg', 'New passwords do not match');
+    return res.redirect('/settings');
+  }
+  
+  // Update password
+  user.password = newPassword;
+  saveUsers();
+  
+  req.flash('success_msg', 'Password updated successfully');
+  res.redirect('/settings');
 });
 
 // User management routes (admin only)
