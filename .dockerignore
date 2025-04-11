@@ -1,0 +1,9 @@
+﻿node_modules
+npm-debug.log
+.git
+.env
+*.md
+deploy-*.ps1
+cloud-*.ps1
+build-*.ps1
+package-*.ps1

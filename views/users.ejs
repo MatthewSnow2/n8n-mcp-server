@@ -1,0 +1,181 @@
+<%- include('partials/hero', { 
+    title: 'User Management', 
+    subtitle: 'Manage user accounts for the MCP Server'
+}) %>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar p-3">
+            <h5>Navigation</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/workflows">
+                        <i class="bi bi-diagram-3"></i> Workflows
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/marketing">
+                        <i class="bi bi-megaphone"></i> Marketing Campaigns
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">
+                        <i class="bi bi-graph-up"></i> Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/users">
+                        <i class="bi bi-people"></i> User Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">User Accounts</h5>
+                <a href="/users/new" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i> Add New User
+                </a>
+            </div>
+            <div class="card-body">
+                <% if (users && users.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(function(userData) { %>
+                                    <tr>
+                                        <td><%= userData.username %></td>
+                                        <td><%= userData.name || '-' %></td>
+                                        <td><%= userData.email || '-' %></td>
+                                        <td>
+                                            <% if (userData.role === 'admin') { %>
+                                                <span class="badge bg-danger">Admin</span>
+                                            <% } else if (userData.role === 'marketing') { %>
+                                                <span class="badge bg-primary">Marketing</span>
+                                            <% } else if (userData.role === 'client') { %>
+                                                <span class="badge bg-success">Client</span>
+                                            <% } else { %>
+                                                <span class="badge bg-secondary"><%= userData.role %></span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= moment(userData.created).format('MMM D, YYYY') %></td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="/users/edit/<%= userData.id %>" class="btn btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <% if (userData.id !== user.id) { %>
+                                                    <button type="button" class="btn btn-outline-danger" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#deleteModal<%= userData.id %>">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                <% } %>
+                                            </div>
+                                            
+                                            <!-- Delete Confirmation Modal -->
+                                            <div class="modal fade" id="deleteModal<%= userData.id %>" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Confirm Delete</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete the user <strong><%= userData.username %></strong>?</p>
+                                                            <p class="text-danger">This action cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <form action="/users/delete/<%= userData.id %>" method="POST">
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-info">
+                        No users found. Please add a user to get started.
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">User Roles</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Admin</h5>
+                                <p class="card-text">Full access to all features, including user management and system settings.</p>
+                                <span class="badge bg-danger">Highest Privileges</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Marketing</h5>
+                                <p class="card-text">Access to marketing campaigns and workflows, but not system settings.</p>
+                                <span class="badge bg-primary">Limited Access</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Client</h5>
+                                <p class="card-text">View-only access to assigned campaigns and basic reports.</p>
+                                <span class="badge bg-success">Basic Access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <h5><i class="bi bi-info-circle"></i> Marketing AI Crew Integration</h5>
+                    <p>User roles determine access to marketing AI crew features:</p>
+                    <ul>
+                        <li><strong>Admin:</strong> Full access to all marketing AI agents and workflows</li>
+                        <li><strong>Marketing:</strong> Can create and manage campaigns using all agents</li>
+                        <li><strong>Client:</strong> Can view campaign results and request new campaigns</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

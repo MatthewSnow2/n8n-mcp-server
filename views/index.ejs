@@ -1,0 +1,114 @@
+<%- include('partials/hero', { 
+    title: 'n8n Message Control Protocol Server', 
+    subtitle: 'Secure API Gateway for n8n Workflows',
+    buttonText: 'View Dashboard',
+    buttonLink: '/dashboard'
+}) %>
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure Access</h3>
+                <p>Authenticate clients and control access to your n8n workflows with JWT tokens.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">🔄</div>
+                <h3>Workflow Integration</h3>
+                <p>Trigger n8n workflows via secure API endpoints with standardized request/response formats.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">📊</div>
+                <h3>Monitoring</h3>
+                <p>Track usage, monitor performance, and log all interactions with your n8n workflows.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">📱</div>
+                <h3>Marketing Campaigns</h3>
+                <p>Integrate with Marketing AI Crew to automate campaign creation and management.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">📝</div>
+                <h3>Content Creation</h3>
+                <p>Connect to AI-powered copywriting and design workflows for marketing materials.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">📈</div>
+                <h3>Performance Analytics</h3>
+                <p>Track campaign performance and generate reports through secure API access.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>API Integration</h4>
+            </div>
+            <div class="card-body">
+                <p>Integrate with the MCP Server API to access n8n workflows programmatically:</p>
+                <pre><code>// Get authentication token
+fetch('/api/auth/token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ username: 'api_user', password: 'api_password' })
+})
+.then(res => res.json())
+.then(data => {
+  // Use token for authenticated requests
+  const token = data.token;
+});</code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Marketing AI Integration</h4>
+            </div>
+            <div class="card-body">
+                <p>Create marketing campaigns with the Marketing AI Crew:</p>
+                <pre><code>// Create a marketing campaign
+fetch('/api/marketing/campaign', {
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token 
+  },
+  body: JSON.stringify({
+    name: 'Summer Campaign',
+    target: 'New Customers',
+    budget: 5000,
+    channels: ['social', 'email']
+  })
+});</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
