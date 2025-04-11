@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: n8n-mcp-server
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: N8N_URL
+        value: http://n8n-app.bluegrass-aa868772.eastus.azurecontainerapps.io:5678
+      - key: JWT_SECRET
+        value: secure-mcp-jwt-secret-change-this-in-production
+      - key: LOG_LEVEL
+        value: info

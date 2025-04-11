@@ -1,0 +1,232 @@
+<%- include('partials/hero', { 
+    title: workflow.name, 
+    subtitle: 'Workflow Details and Management'
+}) %>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar p-3">
+            <h5>Navigation</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/workflows">
+                        <i class="bi bi-diagram-3"></i> Workflows
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/marketing">
+                        <i class="bi bi-megaphone"></i> Marketing Campaigns
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">
+                        <i class="bi bi-graph-up"></i> Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+            </ul>
+            
+            <h5 class="mt-4">Marketing AI Agents</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/strategy">
+                        <i class="bi bi-bullseye"></i> Strategy Agent
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/copywriting">
+                        <i class="bi bi-pencil"></i> Copywriting Agent
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/design">
+                        <i class="bi bi-palette"></i> Design Agent
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/campaign">
+                        <i class="bi bi-calendar-event"></i> Campaign Manager
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/performance">
+                        <i class="bi bi-bar-chart"></i> Performance Analyst
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/agents/automation">
+                        <i class="bi bi-lightning"></i> Automation Agent
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Workflow Information</h5>
+                <div>
+                    <a href="/workflows/<%= workflow.id %>/edit" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                    <a href="/workflows/<%= workflow.id %>/execute" class="btn btn-sm btn-success">Execute</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>ID:</strong> <%= workflow.id %></p>
+                        <p><strong>Name:</strong> <%= workflow.name %></p>
+                        <p><strong>Status:</strong> 
+                            <% if (workflow.active) { %>
+                                <span class="badge bg-success">Active</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary">Inactive</span>
+                            <% } %>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Created:</strong> <%= moment(workflow.createdAt).format('MMMM D, YYYY') %></p>
+                        <p><strong>Updated:</strong> <%= moment(workflow.updatedAt).format('MMMM D, YYYY') %></p>
+                        <p><strong>Tags:</strong> 
+                            <% if (workflow.tags && workflow.tags.length > 0) { %>
+                                <% workflow.tags.forEach(function(tag) { %>
+                                    <span class="badge bg-info me-1"><%= tag %></span>
+                                <% }); %>
+                            <% } else { %>
+                                <span class="text-muted">No tags</span>
+                            <% } %>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h6>API Access Information</h6>
+                    <p>This workflow can be triggered via the MCP Server API using the following endpoint:</p>
+                    <pre><code>POST /api/workflows/<%= workflow.id %>/trigger</code></pre>
+                    <p>Example request:</p>
+                    <pre><code>fetch('/api/workflows/<%= workflow.id %>/trigger', {
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_TOKEN' 
+  },
+  body: JSON.stringify({
+    // Your workflow input data here
+  })
+});</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Workflow Description</h5>
+            </div>
+            <div class="card-body">
+                <% if (workflow.description) { %>
+                    <p><%= workflow.description %></p>
+                <% } else { %>
+                    <p class="text-muted">No description available.</p>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Marketing AI Crew Integration</h5>
+            </div>
+            <div class="card-body">
+                <% if (workflow.name.toLowerCase().includes('marketing') || 
+                       workflow.name.toLowerCase().includes('campaign') ||
+                       workflow.name.toLowerCase().includes('copy') ||
+                       workflow.name.toLowerCase().includes('design') ||
+                       workflow.name.toLowerCase().includes('strategy') ||
+                       workflow.name.toLowerCase().includes('performance')) { %>
+                    
+                    <div class="alert alert-success">
+                        <h6><i class="bi bi-check-circle-fill"></i> Marketing AI Crew Compatible</h6>
+                        <p>This workflow is compatible with your Marketing AI Crew and can be used with the marketing agents.</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Associated Marketing Agent:</h6>
+                        <% if (workflow.name.toLowerCase().includes('strategy')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-bullseye fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Strategy Agent</strong>
+                                    <p class="mb-0 small">Updates targeting and competitor tracking</p>
+                                </div>
+                            </div>
+                        <% } else if (workflow.name.toLowerCase().includes('copy')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-pencil fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Copywriting Agent</strong>
+                                    <p class="mb-0 small">Sets up AI-generated ad copy workflow with approval</p>
+                                </div>
+                            </div>
+                        <% } else if (workflow.name.toLowerCase().includes('design')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-palette fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Design Agent</strong>
+                                    <p class="mb-0 small">Implements creative asset automation</p>
+                                </div>
+                            </div>
+                        <% } else if (workflow.name.toLowerCase().includes('campaign')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-calendar-event fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Campaign Manager</strong>
+                                    <p class="mb-0 small">Builds Google Ads campaign creation automation</p>
+                                </div>
+                            </div>
+                        <% } else if (workflow.name.toLowerCase().includes('performance')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-bar-chart fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Performance Analyst</strong>
+                                    <p class="mb-0 small">Automates weekly reports and real-time monitoring</p>
+                                </div>
+                            </div>
+                        <% } else if (workflow.name.toLowerCase().includes('automation') || workflow.name.toLowerCase().includes('scaling')) { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-lightning fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>Automation & Scaling Agent</strong>
+                                    <p class="mb-0 small">Implements budget controls and autoscaling</p>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-megaphone fs-4 me-2 text-primary"></i>
+                                <div>
+                                    <strong>General Marketing Workflow</strong>
+                                    <p class="mb-0 small">Compatible with multiple marketing agents</p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    <a href="/marketing/connect/<%= workflow.id %>" class="btn btn-primary">Connect to Campaign</a>
+                <% } else { %>
+                    <div class="alert alert-secondary">
+                        <h6><i class="bi bi-info-circle-fill"></i> Not a Marketing Workflow</h6>
+                        <p>This workflow is not identified as a marketing workflow. If this is incorrect, you can manually connect it to your Marketing AI Crew.</p>
+                    </div>
+                    <a href="/marketing/connect/<%= workflow.id %>" class="btn btn-outline-primary">Connect to Marketing AI Crew</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

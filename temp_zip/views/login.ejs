@@ -1,0 +1,42 @@
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Login to MCP Server</h4>
+            </div>
+            <div class="card-body">
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                <div class="mt-3 text-center">
+                    <p class="text-muted">Default credentials: admin / admin</p>
+                    <p class="small text-muted">For API access: api_user / api_password</p>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5>Integration with Marketing AI Crew</h5>
+                <p>This MCP server provides secure access to your n8n workflows, including integration with your Marketing AI Crew agents:</p>
+                <ul>
+                    <li><strong>Strategy Agent</strong> - Updates targeting and competitor tracking</li>
+                    <li><strong>Copywriting Agent</strong> - Sets up AI-generated ad copy workflow with approval</li>
+                    <li><strong>Design Agent</strong> - Implements creative asset automation</li>
+                    <li><strong>Campaign Manager</strong> - Builds Google Ads campaign creation automation</li>
+                    <li><strong>Performance Analyst</strong> - Automates weekly reports and real-time monitoring</li>
+                    <li><strong>Automation & Scaling Agent</strong> - Implements budget controls and autoscaling</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin",
+      "role": "admin",
+      "name": "Administrator",
+      "email": "admin@example.com",
+      "created": "2025-04-11T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "username": "marketing",
+      "password": "marketing123",
+      "role": "marketing",
+      "name": "Marketing User",
+      "email": "marketing@example.com",
+      "created": "2025-04-11T12:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "username": "client",
+      "password": "client123",
+      "role": "client",
+      "name": "Client User",
+      "email": "client@example.com",
+      "created": "2025-04-11T12:00:00.000Z"
+    }
+  ],
+  "apiUsers": [
+    {
+      "id": "1",
+      "username": "api_user",
+      "password": "api_password",
+      "role": "api",
+      "allowedWorkflows": ["*"],
+      "created": "2025-04-11T12:00:00.000Z"
+    }
+  ]
+}

@@ -1,2 +1,5 @@
 {"level":"info","message":"MCP Server running on port 3000","timestamp":"2025-04-11T02:05:07.422Z"}
 {"level":"info","message":"Connected to n8n at http://n8n-app.bluegrass-aa868772.eastus.azurecontainerapps.io:5678","timestamp":"2025-04-11T02:05:07.425Z"}
+{"level":"info","message":"Loaded 3 web users and 1 API users","timestamp":"2025-04-11T18:36:58.844Z"}
+{"level":"info","message":"MCP Server is running on port 3001","timestamp":"2025-04-11T18:36:58.854Z"}
+{"level":"info","message":"Connected to n8n instance at http://n8n-app.bluegrass-aa868772.eastus.azurecontainerapps.io:5678","timestamp":"2025-04-11T18:36:58.854Z"}

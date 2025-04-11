@@ -1,0 +1,162 @@
+<%- include('partials/hero', { 
+    title: isNew ? 'Add New User' : 'Edit User', 
+    subtitle: isNew ? 'Create a new user account' : 'Update user account details'
+}) %>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="sidebar p-3">
+            <h5>Navigation</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/workflows">
+                        <i class="bi bi-diagram-3"></i> Workflows
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/marketing">
+                        <i class="bi bi-megaphone"></i> Marketing Campaigns
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">
+                        <i class="bi bi-graph-up"></i> Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/users">
+                        <i class="bi bi-people"></i> User Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><%= isNew ? 'Add New User' : 'Edit User' %></h5>
+            </div>
+            <div class="card-body">
+                <form action="<%= isNew ? '/users/new' : '/users/edit/' + userData.id %>" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="<%= userData.username || '' %>" required <%= !isNew ? 'readonly' : '' %>>
+                        <% if (!isNew) { %>
+                            <div class="form-text text-muted">Username cannot be changed after creation.</div>
+                        <% } %>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" value="<%= userData.password || '' %>" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%= userData.name || '' %>" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%= userData.email || '' %>" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="admin" <%= (userData.role === 'admin') ? 'selected' : '' %>>Admin</option>
+                            <option value="marketing" <%= (userData.role === 'marketing') ? 'selected' : '' %>>Marketing</option>
+                            <option value="client" <%= (userData.role === 'client') ? 'selected' : '' %>>Client</option>
+                        </select>
+                        <div class="form-text text-muted">
+                            <strong>Admin:</strong> Full access to all features<br>
+                            <strong>Marketing:</strong> Access to marketing campaigns and workflows<br>
+                            <strong>Client:</strong> View-only access to assigned campaigns
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="/users" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <%= isNew ? 'Create User' : 'Update User' %>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <% if (!isNew) { %>
+            <div class="card mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Marketing AI Crew Access</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <p>This section allows you to configure which Marketing AI Crew agents this user can access.</p>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="strategyAgent" checked>
+                        <label class="form-check-label" for="strategyAgent">
+                            <strong>Strategy Agent</strong> - Updates targeting and competitor tracking
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="copywritingAgent" checked>
+                        <label class="form-check-label" for="copywritingAgent">
+                            <strong>Copywriting Agent</strong> - Sets up AI-generated ad copy workflow with approval
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="designAgent" checked>
+                        <label class="form-check-label" for="designAgent">
+                            <strong>Design Agent</strong> - Implements creative asset automation
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="campaignManager" checked>
+                        <label class="form-check-label" for="campaignManager">
+                            <strong>Campaign Manager</strong> - Builds Google Ads campaign creation automation
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="performanceAnalyst" checked>
+                        <label class="form-check-label" for="performanceAnalyst">
+                            <strong>Performance Analyst</strong> - Automates weekly reports and real-time monitoring
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="automationAgent" checked>
+                        <label class="form-check-label" for="automationAgent">
+                            <strong>Automation & Scaling Agent</strong> - Implements budget controls and autoscaling
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="button" class="btn btn-outline-primary">Save Agent Access Settings</button>
+                    </div>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <p class="mb-0"><i class="bi bi-info-circle"></i> Note: This feature will be fully implemented in the next update.</p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>

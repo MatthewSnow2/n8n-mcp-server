@@ -1,0 +1,18 @@
+<%
+// Hero partial component
+// Parameters:
+// - title: Main heading text
+// - subtitle: Subheading text
+// - buttonText: Text for the CTA button
+// - buttonLink: URL for the CTA button
+%>
+
+<div class="hero-section">
+    <div class="container text-center">
+        <h1><%= title %></h1>
+        <p class="lead"><%= subtitle %></p>
+        <% if (typeof buttonText !== 'undefined' && typeof buttonLink !== 'undefined') { %>
+            <a href="<%= buttonLink %>" class="btn btn-light btn-lg mt-3"><%= buttonText %></a>
+        <% } %>
+    </div>
+</div>
